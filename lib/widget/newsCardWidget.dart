@@ -4,8 +4,6 @@ import 'package:wordpress_iglesia/model/newsModel.dart';
 import 'package:wordpress_iglesia/utilities/layoutUtility.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html/style.dart';
-
 
 class NewsCardWidget extends StatelessWidget {
   final title;
@@ -13,9 +11,23 @@ class NewsCardWidget extends StatelessWidget {
   final category;
   final date;
   final content;
-  const NewsCardWidget(
-      {Key? key, this.title, this.description, this.category, this.date, this.content})
-      : super(key: key);
+
+  String truncateDescription(String description, int maxLength) {
+    if (description.length <= maxLength) {
+      return description;
+    } else {
+      return description.substring(0, maxLength) + '...';
+    }
+  }
+
+  const NewsCardWidget({
+    Key? key,
+    this.title,
+    this.description,
+    this.category,
+    this.date,
+    this.content,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +35,6 @@ class NewsCardWidget extends StatelessWidget {
       margin: EdgeInsets.all(8.0), // Establecer el margen deseado
       child: Card(
         elevation: 0,
-        
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
         ),
@@ -88,14 +99,21 @@ class NewsCardWidget extends StatelessWidget {
                         ),
                       ],
                     ),
+                    SizedBox(height: 10.0),
                     Text(
                       title ?? "Sin Nombre",
                       style: TextStyle(fontSize: 20.0),
                     ),
-                    SizedBox(height: 16.0),
-                    Text(
-                      content ?? "Sin contenido",
-                      style: TextStyle(fontSize: 16.0),
+                    SizedBox(height: 10.0),
+                    Html(
+                      data: truncateDescription(description, 100), // Limitar a 100 caracteres
+                      style: {
+                        'p': Style(
+                          fontSize: FontSize(16.0),
+                          lineHeight: LineHeight(1.5),
+                          
+                        ),
+                      },
                     ),
                   ],
                 ),
@@ -107,4 +125,3 @@ class NewsCardWidget extends StatelessWidget {
     );
   }
 }
-

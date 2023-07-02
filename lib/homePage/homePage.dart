@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'dart:convert';
 import 'package:wordpress_iglesia/controllers/categories_controller.dart';
 import 'package:wordpress_iglesia/global/data_services.dart';
@@ -14,6 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  static final String oneSignalAppId = "36231939-dca1-492d-860a-a71f75041f43";
   final CategoriesController categoriesController =
       Get.put(CategoriesController());
   @override
@@ -88,11 +90,7 @@ class _HomePageState extends State<HomePage> {
     List<dynamic> categories = post['categories'];
     String categoryName = '';
     String cleanedContent = post['content']['rendered'].replaceAll(RegExp(r'<p>|<\/p>'), '');
-String description = post['excerpt']['rendered'];
-int maxLength = 50; // Número máximo de caracteres que deseas mostrar
 
-String truncatedDescription =
-    description.length > maxLength ? description.substring(0, maxLength) + '...' : description;
 
 var postDate = DateTime.parse(post['date']);
     if (categories.isNotEmpty) {
@@ -114,12 +112,7 @@ var postDate = DateTime.parse(post['date']);
 
     return NewsCardWidget(
       title: post['title']['rendered'],
-      description: Text(
-    truncatedDescription,
-    style: TextStyle(fontSize: 16.0),
-    overflow: TextOverflow.ellipsis,
-    maxLines: 2,
-  ),
+      description: post['excerpt']['rendered'],
       category: categoryName,
       date: postDate,
       content: cleanedContent,
