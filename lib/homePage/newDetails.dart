@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:wordpress_iglesia/utilities/layoutUtility.dart';
 
-class NewDetails extends StatelessWidget {
-  const NewDetails({super.key});
+class NewDetails extends StatefulWidget {
+  final String postId;
 
+  const NewDetails({super.key, required this.postId});
+
+  @override
+  State<NewDetails> createState() => _NewDetailsState();
+}
+
+class _NewDetailsState extends State<NewDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +42,7 @@ class NewDetails extends StatelessWidget {
           LayoutUtils.iconText(Icon(Icons.timer), Text("01 de Enero 2021")),
           SizedBox(height: 15),
           Text(
-            "Mensaje vistoso",
+            this.widget.postId,
             style: TextStyle(
                 fontSize: 16, color: Colors.grey, fontWeight: FontWeight.bold),
           ),

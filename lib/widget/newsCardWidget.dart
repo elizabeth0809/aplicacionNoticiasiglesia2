@@ -42,7 +42,7 @@ class NewsCardWidget extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => NewDetails()),
+              MaterialPageRoute(builder: (context) => NewDetails(postId: 'post_id',)),
             );
           },
           child: Column(

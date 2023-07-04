@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:wordpress_iglesia/global/globals.dart' as globals;
 import 'dart:convert';
 import 'package:wordpress_iglesia/controllers/categories_controller.dart';
 import 'package:wordpress_iglesia/global/data_services.dart';
+import 'package:wordpress_iglesia/homePage/newDetails.dart';
 import 'package:wordpress_iglesia/widget/newsCardWidget.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    initPlatformState();
   }
 
   @override
@@ -85,7 +88,20 @@ class _HomePageState extends State<HomePage> {
       }),
     );
   }
-
+Future<void> initPlatformState() async {
+  OneSignal.shared.setNotificationWillShowInForegroundHandler((OSNotificationReceivedEvent event) {
+    // Lógica para manejar la notificación recibida
+  });
+  
+  await OneSignal.shared.setAppId(oneSignalAppId);
+  await OneSignal.shared.promptUserForPushNotificationPermission();
+  OneSignal.shared.setNotificationOpenedHandler((openendResult) {
+    
+    // Lógica para manejar la notificación abierta
+    var data = openendResult.notification.additionalData;
+  globals.appNavigator.currentState?.push(MaterialPageRoute(builder: (context) => NewDetails(postId: data!["post_id"].toString(),)));
+  });
+}
   Future<NewsCardWidget> obtenerCategoria(Map post) async {
     List<dynamic> categories = post['categories'];
     String categoryName = '';

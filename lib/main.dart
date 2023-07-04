@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:wordpress_iglesia/homePage/homePage.dart';
-
+import 'global/globals.dart' as globals;
 
 void main() {
+  globals.appNavigator = GlobalKey<NavigatorState>();
   runApp(const MyApp());
 }
 
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: Colors.white,
         ),
+        navigatorKey: globals.appNavigator,
         home: HomePage());
   }
 }
