@@ -45,10 +45,7 @@ class _HomePageState extends State<HomePage> {
                     actions: <Widget>[
                       Icon(Icons.search, color: Colors.white),
                       SizedBox(width: 10),
-                      Icon(
-                        Icons.notifications,
-                        color: Colors.white,
-                      )
+                     
                     ],
                   ),
                   body: FutureBuilder(
@@ -99,7 +96,7 @@ Future<void> initPlatformState() async {
     
     // Lógica para manejar la notificación abierta
     var data = openendResult.notification.additionalData;
-  globals.appNavigator.currentState?.push(MaterialPageRoute(builder: (context) => NewDetails(postId: data!["post_id"].toString(),)));
+  globals.appNavigator.currentState?.push(MaterialPageRoute(builder: (context) => NewDetails(postId: data!["post_id"].toString(), category: ["categories"], content: ["content"], date: ["date"], description: ["description"], title: ["title"],)));
   });
 }
   Future<NewsCardWidget> obtenerCategoria(Map post) async {

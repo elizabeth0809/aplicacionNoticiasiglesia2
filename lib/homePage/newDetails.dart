@@ -1,34 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:intl/intl.dart';
 import 'package:wordpress_iglesia/utilities/layoutUtility.dart';
 
-class NewDetails extends StatefulWidget {
+class NewDetails extends StatelessWidget {
   final String postId;
+  final title;
+  final description;
+  final category;
+  final date;
+  final content;
 
-  const NewDetails({super.key, required this.postId});
-
-  @override
-  State<NewDetails> createState() => _NewDetailsState();
-}
-
-class _NewDetailsState extends State<NewDetails> {
+  const NewDetails({super.key, required this.postId, required this.title, required this.description, required this.category, required this.date, required this.content});
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          flexibleSpace: FlexibleSpaceBar(
-              background: Image.network(
-                  "https://www.ar-racking.com/gestor/recursos/uploads/imagenes/blog/Stock-seguridad/stock-de-seguridad-almacen.jpg",
-                  fit: BoxFit.cover)),
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          expandedHeight: 250,
-        ),
-        SliverFillRemaining(child: NewDetailsSection())
-      ],
-    ));
+      appBar: AppBar(),
+        body: SafeArea(
+          child: CustomScrollView(
+            physics: BouncingScrollPhysics(),
+              slivers: [
+          // SliverAppBar(
+          //   flexibleSpace: FlexibleSpaceBar(
+          //       background: Image.network(
+          //           "https://www.ar-racking.com/gestor/recursos/uploads/imagenes/blog/Stock-seguridad/stock-de-seguridad-almacen.jpg",
+          //           fit: BoxFit.cover)),
+          //   backgroundColor: Colors.transparent,
+          //   elevation: 0.0,
+          //   expandedHeight: 250,
+          // ),
+          SliverFillRemaining(child: NewDetailsSection())
+              ],
+            ),
+        ));
   }
 
   Widget NewDetailsSection() {
@@ -39,21 +44,26 @@ class _NewDetailsState extends State<NewDetails> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           row1(),
-          LayoutUtils.iconText(Icon(Icons.timer), Text("01 de Enero 2021")),
+          SizedBox(height: 20,),
+           Text(title, style: TextStyle(fontSize: 20),),
           SizedBox(height: 15),
+          LayoutUtils.iconText(Icon(Icons.timer, color: Colors.grey),
           Text(
-            this.widget.postId,
+            //this.widget.postId,
+             DateFormat('dd/MM/yyyy').format(date),
             style: TextStyle(
                 fontSize: 16, color: Colors.grey, fontWeight: FontWeight.bold),
-          ),
+          )),
           SizedBox(
             child: Divider(color: Colors.grey, thickness: 2),
-            width: 100,
+            width: 150,
           ),
-          Expanded(
-              child: Html(style: {
-            "p": Style(color: Colors.grey, fontSize: FontSize.large)
-          }, data: "<p>texto nuevo</p>texto nuevp para"))
+         SizedBox(height: 15),
+          Text(
+            content,
+            style: TextStyle(
+                fontSize: 16, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );
@@ -69,22 +79,13 @@ class _NewDetailsState extends State<NewDetails> {
             padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
                 color: Colors.green, borderRadius: BorderRadius.circular(10)),
-            child: Text("Sports",
+            child: Text(category,
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 15.0,
                     fontWeight: FontWeight.bold)),
           ),
         ),
-        Align(
-          alignment: Alignment.topRight,
-          child: Row(
-            children: [
-              IconButton(onPressed: null, icon: Icon(Icons.mail)),
-              IconButton(onPressed: null, icon: Icon(Icons.mail))
-            ],
-          ),
-        )
       ],
     );
   }

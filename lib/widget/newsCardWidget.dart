@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wordpress_iglesia/homePage/newDetails.dart';
-import 'package:wordpress_iglesia/model/newsModel.dart';
+
 import 'package:wordpress_iglesia/utilities/layoutUtility.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -42,7 +42,7 @@ class NewsCardWidget extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => NewDetails(postId: 'post_id',)),
+              MaterialPageRoute(builder: (context) => NewDetails(postId: 'post_id', category: category, content: content, date: date, description: description, title: title,)),
             );
           },
           child: Column(
